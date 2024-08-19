@@ -7,6 +7,7 @@ services:
       - .env
     networks:
       - llm-serve-network
+    restart: always
 
   postgres-telegram:
     image: postgres:13.4-buster
