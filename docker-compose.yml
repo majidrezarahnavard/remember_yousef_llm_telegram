@@ -1,0 +1,50 @@
+version: "3.9"
+
+services:
+  telegram:
+    image: llm-telegram-app
+    env_file:
+      - .env
+    networks:
+      - llm-serve-network
+
+  postgres-telegram:
+    image: postgres:13.4-buster
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: telegram
+    volumes:
+      - postgres-db:/var/lib/postgresql/data
+    restart: always
+    ports: 
+      - 3001:5432
+    networks:
+      - llm-serve-network
+
+  admin:
+    image: adminer
+    restart: always
+    depends_on: 
+      - postgres-telegram
+    ports:
+      - 10000:8080
+    networks:
+      - llm-serve-network
+
+  liquibase:
+    image: liquibase/liquibase
+    command: tail -f /liquibase/changelog.xml
+    volumes:
+      - ./sql/changelog.xml:/liquibase/changelog.xml
+      - ./sql/migrations:/liquibase/migrations
+    networks:
+      - llm-serve-network
+
+volumes:
+  postgres-db:
+    driver: local
+
+networks:
+  llm-serve-network:
+    external: true

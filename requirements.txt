@@ -1,0 +1,8 @@
+pip
+unstructured
+networkx
+pyroscope-io
+python-telegram-bot
+sqlalchemy
+python-dotenv
+psycopg2
