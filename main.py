@@ -116,7 +116,10 @@ def main():
     application.add_handler(conv_handler)
 
     # Run the bot until the user presses Ctrl-C
-    application.run_polling(allowed_updates=Update.ALL_TYPES)
+    try :
+        application.run_polling(allowed_updates=Update.ALL_TYPES)
+    except Exception as e:
+        print("telegram can't connect" , e)
     
 if __name__ == '__main__':
     main()
