@@ -50,12 +50,12 @@ def ai_curl(message : str ) :
         x =  requests.post(os.environ.get("AI_URL"), json = obj)
     except Exception as e:
         logger.warning("AI Response Error: %s", str(e))
-        return "" , "" , ""
+        return ""
         
 
     if x.status_code != 200:
         logger.warning("AI Response Error: %s", x.status_code)
-        return "" , "" , ""
+        return ""
       
     json_message = json.loads(x.text)
     return json_message['message']
